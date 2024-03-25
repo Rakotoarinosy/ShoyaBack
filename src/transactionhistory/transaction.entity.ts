@@ -24,7 +24,7 @@ export class TransactionHistory {
     montant: number;
 
     @Column()
-    cours: string;
+    cours: number;
 
     @Column({ type: 'timestamp' })
     date: Date;

@@ -31,6 +31,10 @@ export class SoldeuserService {
   async delete(id: number): Promise<void> {
     await this.soldeUserRepository.delete(id);
   }
+
+  async findByUser(iduser: number): Promise<SoldeUser[]>{
+    return this.soldeUserRepository.find({ where: {iduser} });
+  }
 }
 
 

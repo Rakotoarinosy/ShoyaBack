@@ -7,6 +7,9 @@ export class SoldeUser {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column()
+    iduser: number;
+
     @ManyToOne(() => User)
     @JoinColumn({ name: 'iduser' })
     user: User;

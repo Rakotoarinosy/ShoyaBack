@@ -7,6 +7,7 @@ import { TransactionHistory } from './transaction.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([TransactionHistory])],
   controllers: [TransactionhistoryController],
-  providers: [TransactionhistoryService]
+  providers: [TransactionhistoryService],
+  exports: [TransactionhistoryService],
 })
 export class TransactionhistoryModule {}

@@ -1,10 +1,15 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
 import { UserService } from './users.service';
 import { User } from './user.entity';
+import { SoldeuserService } from 'src/soldeuser/soldeuser.service';
+import { SoldeUser } from 'src/soldeuser/soldeuser.entity';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UserService) {}
+  constructor(
+    private readonly usersService: UserService,
+    private readonly soldeUserService: SoldeuserService
+    ) {}
 
   //get all users
   @Get()
@@ -32,11 +37,23 @@ export class UsersController {
     return user;
   }
 
-  //create user
-  @Post()
-  async create(@Body() user: User): Promise<User> {
-    return this.usersService.create(user);
+//create user
+@Post()
+async create(@Body() user: User): Promise<User> {
+  const newuser = await this.usersService.create(user);
+
+  if (newuser && newuser.id) {
+    const soldeuser = new SoldeUser();
+    soldeuser.iduser = newuser.id;
+    soldeuser.solde = 0;
+    await this.soldeUserService.create(soldeuser);
+  } else {
+    throw new Error("Impossible de créer l'utilisateur.");
   }
+
+  return newuser;
+}
+
 
   //update user
   @Put(':id')

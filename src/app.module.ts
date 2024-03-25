@@ -11,6 +11,7 @@ import { BinanceModule } from './binance/binance.module';
 import { TransactionidModule } from './transactionid/transactionid.module';
 import { TransactionhistoryModule } from './transactionhistory/transactionhistory.module';
 import { SoldeuserModule } from './soldeuser/soldeuser.module';
+import { SoldeshoyaModule } from './soldeshoya/soldeshoya.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { SoldeuserModule } from './soldeuser/soldeuser.module';
     BinanceModule,
     TransactionidModule,
     TransactionhistoryModule,
-    SoldeuserModule],
+    SoldeuserModule,
+    SoldeshoyaModule],
   controllers: [AppController],
   providers: [AppService],
 })
