@@ -6,6 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { KycModule } from './kyc/kyc.module';
 import { PhoneModule } from './phone/phone.module';
 import { CoursModule } from './cours/cours.module';
+import { AdresseusdtModule } from './adresseusdt/adresseusdt.module';
+import { BinanceModule } from './binance/binance.module';
+import { TransactionidModule } from './transactionid/transactionid.module';
+import { TransactionhistoryModule } from './transactionhistory/transactionhistory.module';
+import { SoldeuserModule } from './soldeuser/soldeuser.module';
 
 @Module({
   imports: [
@@ -22,7 +27,12 @@ import { CoursModule } from './cours/cours.module';
     UsersModule,
     KycModule,
     PhoneModule,
-    CoursModule],
+    CoursModule,
+    AdresseusdtModule,
+    BinanceModule,
+    TransactionidModule,
+    TransactionhistoryModule,
+    SoldeuserModule],
   controllers: [AppController],
   providers: [AppService],
 })

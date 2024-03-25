@@ -3,7 +3,7 @@ import { ManyToOne, JoinColumn } from "typeorm";
 import { User } from "src/users/user.entity";
 
 @Entity()
-export class KYC {
+export class TransactionHistory {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -15,17 +15,20 @@ export class KYC {
     user: User;
 
     @Column()
-    nom: string;
+    type: string;
 
     @Column()
-    prenom: string;
+    actif: string;
 
     @Column()
-    cin_passeport: string;
+    montant: number;
 
     @Column()
-    adresse: string;
+    cours: string;
 
-    @Column({ type: 'boolean', default: false })
-    validation: boolean;
+    @Column({ type: 'timestamp' })
+    date: Date;
+
+    @Column()
+    numeroordre: string;
 }
