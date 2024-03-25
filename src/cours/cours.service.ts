@@ -31,4 +31,9 @@ export class CoursService {
   async delete(id: number): Promise<void> {
     await this.coursRepository.delete(id);
   }
+
+  async findByName(actif: string): Promise<Cours> {
+    const lowerActif = actif.toLowerCase();
+    return this.coursRepository.findOne({ where: { actif: lowerActif } });
+  }    
 }

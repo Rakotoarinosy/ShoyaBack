@@ -6,10 +6,7 @@ export class SoldeShoya {
     id: number;
 
     @Column()
-    mvola: number;
-
-    @Column()
-    orangemoney: number;
+    mga: number;
 
     @Column()
     usdt: number;
