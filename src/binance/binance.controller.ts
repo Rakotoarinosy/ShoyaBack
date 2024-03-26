@@ -25,6 +25,8 @@ export class BinanceController {
     return await this.binanceService.depositHistory();
   }
 
+  // RETRAIT
+
   @Get('/fairedeposit/:txid/:iduser')
   async transactionDeposit(
    @Param('txid') txid : string, 
@@ -80,8 +82,17 @@ export class BinanceController {
   }
   
 
+  // DEPOT
+
+  
+
   @Get('/network-list')
   async getNetworkList(): Promise<any> {
     return await this.binanceService.getNetworkList();
+  }
+
+  @Get('/withdraw-history')
+  async getWithdrawHistory(): Promise<any> {
+    return await this.binanceService.getWithdrawHistory();
   }
 }

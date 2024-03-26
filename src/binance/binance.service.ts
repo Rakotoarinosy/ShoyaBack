@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { log } from 'console';
 import * as crypto from 'crypto';
 
 @Injectable()
@@ -25,6 +26,7 @@ export class BinanceService {
     });
   }
 
+  // FONCTION ILAINA AM RETRAIT
     
   async depositHistory(): Promise<any> {
     try {
@@ -36,6 +38,36 @@ export class BinanceService {
       console.log(error.response.data);
     }
   }
+
+  // FONCTION ILAINA AM DEPOT
+
+  async getWithdrawHistory(): Promise<any> {
+    try {
+      const response = await this.binanceGet('https://api.binance.com/sapi/v1/capital/withdraw/history', {
+        coin: 'USDT',
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   async getNetworkList(): Promise<any> {
     try {
