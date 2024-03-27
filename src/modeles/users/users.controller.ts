@@ -36,6 +36,7 @@ export class UsersController {
   
   @Post()
   async create(@Body() user: User): Promise<User> {
+    user.pin = this.usersService.hashString(user.pin);
     const newUser = await this.usersService.create(user);
     if (!newUser || !newUser.id) {
       throw new NotFoundException('Failed to create user');

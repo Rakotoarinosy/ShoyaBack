@@ -4,6 +4,8 @@ import { OtpService } from './otp.service';
 import { log } from 'console';
 import { UserService } from '../users/users.service';
 import { User } from '../users/user.entity';
+import * as crypto from 'crypto';
+import { emit } from 'process';
 
 @Controller('otp')
 export class OtpController {
@@ -54,10 +56,11 @@ export class OtpController {
 
   @Post('send')
   async sendOtp(@Body('email') email: string): Promise<any> {
-    const otp = this.otpService.generateNumericOTP(6);
-    await this.otpService.sendOtp(email, otp);
+    // const otp = this.otpService.generateNumericOTP(6);
+    // await this.otpService.sendOtp(email, otp);
     const newotp = new Otp();
-    newotp.code = otp;
+    // newotp.code = otp;
+    newotp.code = '123456';
     newotp.email = email;
     await this.otpService.create(newotp); 
     return { success: true };
@@ -86,4 +89,17 @@ async verifyEmail(@Body('email') email : string): Promise<any> {
     return otps;
  }
 }
+
+@Post('verifypin')
+async verifyPin(@Body() body : { email: string, pin: string }) : Promise<any>{
+    const user = await this.userService.findByEmail(body.email);
+    const hashedPin = this.userService.hashString(body.pin);
+    if(user.pin==hashedPin){
+        return { pinOK: true, pin: hashedPin }
+    }
+    else{
+        return { pinOK: false }
+    }
+}
+
 }

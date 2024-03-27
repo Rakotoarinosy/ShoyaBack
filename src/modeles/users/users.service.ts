@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {User} from './user.entity';
 import { JwtService } from '@nestjs/jwt';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class UserService {
@@ -46,4 +47,11 @@ export class UserService {
   async findByEmail(email: string): Promise<User>{
     return this.userRepository.findOne({ where: { email } });
   }
+
+  hashString(input: string): string {
+    const hash = crypto.createHash('sha256'); 
+    hash.update(input);
+    return hash.digest('hex'); 
+  }
+
 }
