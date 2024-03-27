@@ -22,6 +22,16 @@ export class SoldeuserController {
     }
   }
 
+  @Get()
+  async findByUser(@Body('iduser') iduser: number): Promise<SoldeUser> {
+    const user = await this.soldeUserService.findByUser(iduser);
+    if (!user) {
+      throw new NotFoundException('SoldeUser does not exist!');
+    } else {
+      return user[0];
+    }
+  }
+
   //create solduser
   @Post()
   async create(@Body() soldeuser: SoldeUser): Promise<SoldeUser> {

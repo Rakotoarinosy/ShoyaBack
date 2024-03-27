@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { RestWalletTypes } from 'src';
 import { Spot } from 'src';
+import * as https from 'https';
 
 @Injectable()
 export class BinanceService {
@@ -118,5 +119,48 @@ export class BinanceService {
   generateRandomString(): string {
     const length = 10;
     return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
+  }
+
+  //////////// PERFECT MONEY
+
+  async transferFunds(): Promise<any> {
+    const options = {
+      hostname: 'perfectmoney.com',
+      path: '/acct/confirm.asp?AccountID=myaccount&PassPhrase=mypassword&Payer_Account=U987654&Payee_Account=U1234567&Amount=1&PAY_IN=1&PAYMENT_ID=1223',
+      method: 'GET'
+    };
+
+    return new Promise((resolve, reject) => {
+      const req = https.request(options, (res) => {
+        let data = '';
+
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
+
+        res.on('end', () => {
+          const hiddenFields = this.parseResponse(data);
+          resolve(hiddenFields);
+        });
+      });
+
+      req.on('error', (error) => {
+        reject(error);
+      });
+
+      req.end();
+    });
+  }
+
+  private parseResponse(data: string): { [key: string]: string } {
+    const hiddenFieldsRegex = /<input name='(.*)' type='hidden' value='(.*)'>/g;
+    const hiddenFields: { [key: string]: string } = {};
+    let match;
+
+    while ((match = hiddenFieldsRegex.exec(data)) !== null) {
+      hiddenFields[match[1]] = match[2];
+    }
+
+    return hiddenFields;
   }
 }

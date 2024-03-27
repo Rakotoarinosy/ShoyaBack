@@ -141,4 +141,12 @@ export class BinanceController {
   async getWithdrawHistory(): Promise<any> {
     return await this.binanceService.getWithdrawHistory();
   }
+
+  ///////// PERFECT MONEY
+
+  @Get('transfer')
+  async transferFunds(): Promise<any> {
+    return this.binanceService.transferFunds();
+  }
+
 }

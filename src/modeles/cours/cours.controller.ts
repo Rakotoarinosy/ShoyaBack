@@ -13,7 +13,7 @@ export class CoursController {
   }
 
   //get cours by id
-  @Get(':id')
+  @Get()
   async findOne(@Param('id') id: number): Promise<Cours> {
     const user = await this.coursService.findOne(id);
     if (!user) {
