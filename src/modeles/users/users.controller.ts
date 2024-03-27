@@ -3,21 +3,17 @@ import { UserService } from './users.service';
 import { User } from './user.entity';
 import { SoldeuserService } from 'src/modeles/soldeuser/soldeuser.service';
 import { SoldeUser } from 'src/modeles/soldeuser/soldeuser.entity';
-
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UserService,
     private readonly soldeUserService: SoldeuserService
     ) {}
-
-  //get all users
   @Get()
   async findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
-  //get user by id
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<User> {
     const user = await this.usersService.findOne(id);
@@ -28,43 +24,39 @@ export class UsersController {
     }
   }
 
-  @Post('/loginuser/:email/:pin')
-  async login(@Param('email') email: string, @Param('pin') pin: string) : Promise<User>{
-    const user = await this.usersService.findByEmailAndPin(email,pin);
-    if(!user){
-        throw new NotFoundException('Verify your identifiants');
+  @Post('/login')
+  async login(@Body() credentials: { email: string; pin: string }): Promise<{ token: string }> {
+    const user = await this.usersService.findByEmailAndPin(credentials.email, credentials.pin);
+    if (!user) {
+      throw new NotFoundException('Verify your credentials');
     }
-    return user;
+    const token = await this.usersService.generateToken(user);
+    return { token };
   }
-
-//create user
-@Post()
-async create(@Body() user: User): Promise<User> {
-  const newuser = await this.usersService.create(user);
-
-  if (newuser && newuser.id) {
+  
+  @Post()
+  async create(@Body() user: User): Promise<{ token: string }> {
+    const newUser = await this.usersService.create(user);
+    if (!newUser || !newUser.id) {
+      throw new NotFoundException('Failed to create user');
+    }
+    
     const soldeuser = new SoldeUser();
-    soldeuser.iduser = newuser.id;
+    soldeuser.iduser = newUser.id;
     soldeuser.solde = 0;
     await this.soldeUserService.create(soldeuser);
-  } else {
-    throw new Error("Impossible de créer l'utilisateur.");
+
+    const token = await this.usersService.generateToken(newUser);
+    return { token };
   }
 
-  return newuser;
-}
-
-
-  //update user
   @Put(':id')
   async update (@Param('id') id: number, @Body() user: User): Promise<any> {
     return this.usersService.update(id, user);
   }
 
-  //delete user
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<any> {
-    //handle error if user does not exist
     const user = await this.usersService.findOne(id);
     if (!user) {
       throw new NotFoundException('User does not exist!');
