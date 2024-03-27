@@ -12,6 +12,8 @@ import { TransactionidModule } from './modeles/transactionid/transactionid.modul
 import { TransactionhistoryModule } from './modeles/transactionhistory/transactionhistory.module';
 import { SoldeuserModule } from './modeles/soldeuser/soldeuser.module';
 import { SoldeshoyaModule } from './modeles/soldeshoya/soldeshoya.module';
+import { AdressecryptoshoyaModule } from './modeles/adressecryptoshoya/adressecryptoshoya.module';
+import { AdressenetworkModule } from './modeles/adressenetwork/adressenetwork.module';
 
 @Module({
   imports: [
@@ -34,7 +36,9 @@ import { SoldeshoyaModule } from './modeles/soldeshoya/soldeshoya.module';
     TransactionidModule,
     TransactionhistoryModule,
     SoldeuserModule,
-    SoldeshoyaModule],
+    SoldeshoyaModule,
+    AdressecryptoshoyaModule,
+    AdressenetworkModule],
   controllers: [AppController],
   providers: [AppService],
 })

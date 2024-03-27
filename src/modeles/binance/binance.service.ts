@@ -114,4 +114,9 @@ export class BinanceService {
       console.log(error.response.data);
     }
   }
+
+  generateRandomString(): string {
+    const length = 10;
+    return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
+  }
 }
