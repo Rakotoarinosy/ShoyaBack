@@ -17,9 +17,6 @@ export class User {
     @Column()
     pin: string;
 
-    @Column()
-    otp: string;
-
     @Column({ type: 'boolean', default: false })
     validation: boolean;
 

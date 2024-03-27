@@ -42,4 +42,8 @@ export class UserService {
     const payload = { email: user.email, id: user.id };
     return this.jwtService.sign(payload);
   }
+
+  async findByEmail(email: string): Promise<User>{
+    return this.userRepository.findOne({ where: { email } });
+  }
 }

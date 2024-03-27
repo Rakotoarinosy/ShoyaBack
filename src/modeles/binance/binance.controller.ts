@@ -1,6 +1,5 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { BinanceService } from './binance.service';
-import { Param } from '@nestjs/common';
 import { TransactionidService } from 'src/modeles/transactionid/transactionid.service';
 import { NotFoundException } from '@nestjs/common';
 import { Transactionid } from 'src/modeles/transactionid/transaction.entity';

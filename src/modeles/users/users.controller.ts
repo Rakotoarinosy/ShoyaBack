@@ -35,19 +35,16 @@ export class UsersController {
   }
   
   @Post()
-  async create(@Body() user: User): Promise<{ token: string }> {
+  async create(@Body() user: User): Promise<User> {
     const newUser = await this.usersService.create(user);
     if (!newUser || !newUser.id) {
       throw new NotFoundException('Failed to create user');
     }
-    
     const soldeuser = new SoldeUser();
     soldeuser.iduser = newUser.id;
     soldeuser.solde = 0;
     await this.soldeUserService.create(soldeuser);
-
-    const token = await this.usersService.generateToken(newUser);
-    return { token };
+    return newUser;
   }
 
   @Put(':id')

@@ -12,8 +12,9 @@ import { TransactionidModule } from './modeles/transactionid/transactionid.modul
 import { TransactionhistoryModule } from './modeles/transactionhistory/transactionhistory.module';
 import { SoldeuserModule } from './modeles/soldeuser/soldeuser.module';
 import { SoldeshoyaModule } from './modeles/soldeshoya/soldeshoya.module';
-import { AdressecryptoshoyaModule } from './modeles/adressecryptoshoya/adressecryptoshoya.module';
-import { AdressenetworkModule } from './modeles/adressenetwork/adressenetwork.module';
+import { AdressecryptoshoyaModule } from './adressecryptoshoya/adressecryptoshoya.module';
+import { AdressenetworkModule } from './adressenetwork/adressenetwork.module';
+import { OtpModule } from './modeles/otp/otp.module';
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { AdressenetworkModule } from './modeles/adressenetwork/adressenetwork.mo
     SoldeuserModule,
     SoldeshoyaModule,
     AdressecryptoshoyaModule,
-    AdressenetworkModule],
+    AdressenetworkModule,
+    OtpModule],
   controllers: [AppController],
   providers: [AppService],
 })
