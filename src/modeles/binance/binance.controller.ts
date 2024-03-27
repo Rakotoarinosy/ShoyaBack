@@ -95,6 +95,8 @@ export class BinanceController {
     @Body() body: { iduser: number, montant: number, adress: string }
   ): Promise<void> {
     try {
+    
+      // await this.binanceService.withdraw(1,'uuu');
 
     const soldeUser = await this.soldeuserService.findByUser(body.iduser);
     const depot = (await this.coursService.findByName('usdt')).depot;
