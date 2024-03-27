@@ -10,10 +10,6 @@ import { CoursService } from 'src/modeles/cours/cours.service';
 import { SoldeuserService } from 'src/modeles/soldeuser/soldeuser.service';
 import { SoldeshoyaService } from 'src/modeles/soldeshoya/soldeshoya.service';
 
-import { RestWalletTypes } from 'src';
-import { Spot } from 'src';
-import { mockResponse } from 'src/mock_values/restful/wallet/withdraw';
-
 @Controller('binance')
 export class BinanceController {
   constructor(private readonly binanceService: BinanceService,
@@ -102,7 +98,7 @@ async transactionDepot(
 ): Promise<void> {
   try {
 
-    await this.binanceService.withdraw(montant,adress);
+    // await this.binanceService.withdraw(montant,adress);
 
     const soldeUser = await this.soldeuserService.findByUser(iduser);
     const depot = (await this.coursService.findByName('usdt')).depot;

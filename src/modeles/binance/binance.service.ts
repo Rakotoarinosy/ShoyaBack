@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { log } from 'console';
 import * as crypto from 'crypto';
 import { RestWalletTypes } from 'src';
 import { Spot } from 'src';
-import { mockResponse } from 'src/mock_values/restful/wallet/withdraw';
 
 @Injectable()
 export class BinanceService {
@@ -64,28 +62,28 @@ export class BinanceService {
 
   // FONCTION ILAINA AM DEPOT
 
-  //  async getWithdrawHistory(): Promise<any>{
-  //   const client = new Spot(this.API_KEY, this.SECRET_KEY, { baseURL: this.BASE_URL });
+   async getWithdrawHistory(): Promise<any>{
+    const client = new Spot(this.API_KEY, this.SECRET_KEY, { baseURL: this.BASE_URL });
 
-  //   const options: RestWalletTypes.withdrawHistoryOptions = {
-  //       coin: 'USDT'
-  //   };
+    const options: RestWalletTypes.withdrawHistoryOptions = {
+        coin: 'TRX'
+    };
     
-  //     return client.withdrawHistory(options).then((res: RestWalletTypes.withdrawHistoryResponse[]) => {
-  //       console.log(res);
-  //       })
-  //       .catch(err => { console.log(err); });
-  //  }
+      return client.withdrawHistory(options).then((res: RestWalletTypes.withdrawHistoryResponse[]) => {
+        console.log(res);
+        })
+        .catch(err => { console.log(err); });
+   }
 
-  async getWithdrawHistory(): Promise<any> {
-    try {
-      const response = await this.binanceGet('https://api.binance.com/sapi/v1/capital/withdraw/history', {
-      });
-      return response.data;
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  }
+  // async getWithdrawHistory(): Promise<any> {
+  //   try {
+  //     const response = await this.binanceGet('https://api.binance.com/sapi/v1/capital/withdraw/history', {
+  //     });
+  //     return response.data;
+  //   } catch (error) {
+  //     console.log(error.response.data);
+  //   }
+  // }
 
   async withdraw(amount: number, address: string): Promise<RestWalletTypes.withdrawResponse> {
     const client = new Spot(this.API_KEY, this.SECRET_KEY, { baseURL: this.BASE_URL });
@@ -117,20 +115,3 @@ export class BinanceService {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
