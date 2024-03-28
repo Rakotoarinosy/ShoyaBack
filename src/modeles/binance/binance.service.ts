@@ -104,10 +104,10 @@ export class BinanceService {
        });
    }
    
-    async getNetworkAdress(coin: string, network: string): Promise<any> {
+    async getNetworkAdress(network: string): Promise<any> {
     try {
       const response = await this.binanceGet('https://api.binance.com/sapi/v1/capital/deposit/address', {
-        coin: coin,
+        coin: 'USDT',
         network: network
       });
       return response.data;

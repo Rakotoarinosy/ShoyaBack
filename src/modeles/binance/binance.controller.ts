@@ -76,6 +76,7 @@ export class BinanceController {
         soldeshoya[0].usdt += (+montant);
         soldeshoya[0].mga += - (montantretrait * montant);
         await this.soldeshoyaService.update(soldeshoya[0].id, soldeshoya[0]);
+        return { message : 'Success de la transaction' }
     }
    else{
       let errormessage = '';
@@ -134,8 +135,13 @@ export class BinanceController {
   }
 
   @Post('/network-adress')
-  async getNetworkAdress(@Body() body: { coin: string, network: string}): Promise<any> {
-    return await this.binanceService.getNetworkAdress(body.coin,body.network);
+  async getNetworkAdress(@Body() body: { network: string}): Promise<any> {
+    return await this.binanceService.getNetworkAdress(body.network);
+  }
+
+  @Post('/test')
+  async test(@Body('teste') teste: string){
+    return { message: teste }
   }
 
   // @Post('/withdraw/:amount/:adress')

@@ -9,5 +9,5 @@ export class AdresseNetwork {
     network: string;
 
     @Column()
-    adresse: string;
+    diminutif: string;
 }
