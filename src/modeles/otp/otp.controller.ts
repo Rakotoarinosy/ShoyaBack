@@ -62,6 +62,7 @@ export class OtpController {
     // newotp.code = otp;
     newotp.code = '123456';
     newotp.email = email;
+    console.log('MAKATO AM SEND OTP');
     await this.otpService.create(newotp); 
     return { success: true };
   }
@@ -69,6 +70,7 @@ export class OtpController {
   @Post('verifyotp')
 async verifyOtp(@Body() body: { email: string, otp: string }): Promise<any> {
   const otp = await this.otpService.findByEmailAndOtp(body.email,body.otp);
+  console.log('MAKATO AM VERIFY OTP');
   if(otp==null){
     return { otpNotFound: false };
  }
@@ -80,6 +82,7 @@ async verifyOtp(@Body() body: { email: string, otp: string }): Promise<any> {
 @Post('verifyEmail')
 async verifyEmail(@Body('email') email : string): Promise<any> {
  const otps = await this.userService.findByEmail(email);
+ console.log('MAKATO AM VERIFY EMAIL');
  if(otps==null){
     // Si aucun utilisateur n'est trouvé, retournez un objet avec une propriété indiquant que l'email n'est pas trouvé
     return { emailNotFound: true };
@@ -94,6 +97,7 @@ async verifyEmail(@Body('email') email : string): Promise<any> {
 async verifyPin(@Body() body : { email: string, pin: string }) : Promise<any>{
     const user = await this.userService.findByEmail(body.email);
     const hashedPin = this.userService.hashString(body.pin);
+    console.log('MAKATO AM VERIFY PIN');
     if(user.pin==hashedPin){
         return { pinOK: true, pin: hashedPin }
     }

@@ -9,6 +9,8 @@ import { CoursService } from 'src/modeles/cours/cours.service';
 import { SoldeuserService } from 'src/modeles/soldeuser/soldeuser.service';
 import { SoldeshoyaService } from 'src/modeles/soldeshoya/soldeshoya.service';
 import { Body } from '@nestjs/common';
+import { log } from 'console';
+import { networkInterfaces } from 'os';
 
 @Controller('binance')
 export class BinanceController {
@@ -126,9 +128,14 @@ export class BinanceController {
   }
 }
 
-  @Get('/network-list')
-  async getNetworkList(): Promise<any> {
-    return await this.binanceService.getNetworkList();
+  @Post('/network-list')
+  async getNetworkList(@Body('coin') coin: string): Promise<any> {
+    return await this.binanceService.getNetworkList(coin);
+  }
+
+  @Post('/network-adress')
+  async getNetworkAdress(@Body() body: { coin: string, network: string}): Promise<any> {
+    return await this.binanceService.getNetworkAdress(body.coin,body.network);
   }
 
   // @Post('/withdraw/:amount/:adress')
@@ -144,9 +151,9 @@ export class BinanceController {
 
   ///////// PERFECT MONEY
 
-  @Get('transfer')
-  async transferFunds(): Promise<any> {
-    return this.binanceService.transferFunds();
-  }
+  // @Get('transfer')
+  // async transferFunds(): Promise<any> {
+  //   return this.binanceService.transferFunds();
+  // }
 
 }

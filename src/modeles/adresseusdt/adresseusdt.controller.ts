@@ -23,8 +23,8 @@ export class AdresseusdtController {
     }
   }
 
-  @Get('/byiduser/:iduser')
-  async findByUser(@Param('iduser') iduser: number): Promise<AdresseUSDT[]>{
+  @Get()
+  async findByUser(@Body('iduser') iduser: number): Promise<AdresseUSDT[]>{
     return this.adresseUSDTService.findByUser(iduser);
   }
 

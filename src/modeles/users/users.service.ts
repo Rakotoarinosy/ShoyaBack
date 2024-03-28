@@ -44,6 +44,12 @@ export class UserService {
     return this.jwtService.sign(payload);
   }
 
+  async validateToken(token: string): Promise<User> {
+      const decoded = this.jwtService.verify(token);
+      const id = decoded.id;
+      return await this.userRepository.findOne({where : { id }})
+  }
+
   async findByEmail(email: string): Promise<User>{
     return this.userRepository.findOne({ where: { email } });
   }

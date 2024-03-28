@@ -36,6 +36,7 @@ export class UsersController {
   
   @Post()
   async create(@Body() user: User): Promise<User> {
+    console.log('MAKATO AM CREATE USER');
     user.pin = this.usersService.hashString(user.pin);
     const newUser = await this.usersService.create(user);
     if (!newUser || !newUser.id) {
@@ -46,6 +47,17 @@ export class UsersController {
     soldeuser.solde = 0;
     await this.soldeUserService.create(soldeuser);
     return newUser;
+  }
+
+  @Post('/validate-token')
+  async validateToken(@Body('token') token: string): Promise<User>{
+    const user = this.usersService.validateToken(token);
+    if(user!=null){
+      return user;
+    }
+    else{
+      throw new NotFoundException('Invalid Token');
+    }
   }
 
   @Put(':id')

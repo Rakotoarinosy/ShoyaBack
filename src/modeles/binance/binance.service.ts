@@ -104,13 +104,25 @@ export class BinanceService {
        });
    }
    
-
-   async getNetworkList(): Promise<any> {
+    async getNetworkAdress(coin: string, network: string): Promise<any> {
     try {
-      const response = await this.binanceGet('https://api.binance.com/sapi/v1/capital/config/getall', {
-        coin: 'USDT'
+      const response = await this.binanceGet('https://api.binance.com/sapi/v1/capital/deposit/address', {
+        coin: coin,
+        network: network
       });
       return response.data;
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
+
+   async getNetworkList(coin :string): Promise<any> {
+    try {
+      const response = await this.binanceGet('https://api.binance.com/sapi/v1/capital/config/getall', {});
+      const data = response.data;
+      const filteredData = data.filter((item: any) => item.coin === coin);
+      
+      return filteredData;
     } catch (error) {
       console.log(error.response.data);
     }
@@ -123,44 +135,44 @@ export class BinanceService {
 
   //////////// PERFECT MONEY
 
-  async transferFunds(): Promise<any> {
-    const options = {
-      hostname: 'perfectmoney.com',
-      path: '/acct/confirm.asp?AccountID=myaccount&PassPhrase=mypassword&Payer_Account=U987654&Payee_Account=U1234567&Amount=1&PAY_IN=1&PAYMENT_ID=1223',
-      method: 'GET'
-    };
+  // async transferFunds(): Promise<any> {
+  //   const options = {
+  //     hostname: 'perfectmoney.com',
+  //     path: '/acct/confirm.asp?AccountID=myaccount&PassPhrase=mypassword&Payer_Account=U987654&Payee_Account=U1234567&Amount=1&PAY_IN=1&PAYMENT_ID=1223',
+  //     method: 'GET'
+  //   };
 
-    return new Promise((resolve, reject) => {
-      const req = https.request(options, (res) => {
-        let data = '';
+  //   return new Promise((resolve, reject) => {
+  //     const req = https.request(options, (res) => {
+  //       let data = '';
 
-        res.on('data', (chunk) => {
-          data += chunk;
-        });
+  //       res.on('data', (chunk) => {
+  //         data += chunk;
+  //       });
 
-        res.on('end', () => {
-          const hiddenFields = this.parseResponse(data);
-          resolve(hiddenFields);
-        });
-      });
+  //       res.on('end', () => {
+  //         const hiddenFields = this.parseResponse(data);
+  //         resolve(hiddenFields);
+  //       });
+  //     });
 
-      req.on('error', (error) => {
-        reject(error);
-      });
+  //     req.on('error', (error) => {
+  //       reject(error);
+  //     });
 
-      req.end();
-    });
-  }
+  //     req.end();
+  //   });
+  // }
 
-  private parseResponse(data: string): { [key: string]: string } {
-    const hiddenFieldsRegex = /<input name='(.*)' type='hidden' value='(.*)'>/g;
-    const hiddenFields: { [key: string]: string } = {};
-    let match;
+  // private parseResponse(data: string): { [key: string]: string } {
+  //   const hiddenFieldsRegex = /<input name='(.*)' type='hidden' value='(.*)'>/g;
+  //   const hiddenFields: { [key: string]: string } = {};
+  //   let match;
 
-    while ((match = hiddenFieldsRegex.exec(data)) !== null) {
-      hiddenFields[match[1]] = match[2];
-    }
+  //   while ((match = hiddenFieldsRegex.exec(data)) !== null) {
+  //     hiddenFields[match[1]] = match[2];
+  //   }
 
-    return hiddenFields;
-  }
+  //   return hiddenFields;
+  // }
 }

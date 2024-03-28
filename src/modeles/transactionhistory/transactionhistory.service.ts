@@ -31,4 +31,8 @@ export class TransactionhistoryService {
   async delete(id: number): Promise<void> {
     await this.transactionhistoryRepository.delete(id);
   }
+
+  async byIdUser(iduser: number): Promise<TransactionHistory[]>{
+    return await this.transactionhistoryRepository.find({ where: { iduser } });
+  }
 }
