@@ -69,4 +69,28 @@ export class Perfectmoneyservice {
 
     return hiddenFields;
   }
+
+  async testRetrait(): Promise<any> {
+    const url = 'https://perfectmoney.com/acct/confirm.asp';
+    const params = {
+      AccountID: '84905486', // OVAINA COMPTE UTILISATEUR
+      PassPhrase: 'Steven!Passe13Phrase.', // OVAINA COMPTE UTILISATEUR
+      Payer_Account: 'U47300434', // OVAINA COMPTE SHOYA EXCHANGE
+      PAYEE_ACCOUNT : 'U35215711', // OVAINA COMPTE SHOYA
+      PAYEE_NAME : 'Razafimahefa Steven',
+      Amount : 1,
+      PAYMENT_UNITS : 'USD',
+      PAYMENT_URL : 'https://perfectmoney.com/api/step1.asp',
+      NOPAYMENT_URL : 'https://perfectmoney.com/api/step1.asp',
+    };
+
+    try {
+      const response = await axios.get(url, { params });
+      const html = response.data;
+      const hiddenFields = this.parseHiddenFields(html);
+      return hiddenFields;
+    } catch (error) {
+      throw new Error('Error transferring funds: ' + error.message);
+    }
+  }
 }

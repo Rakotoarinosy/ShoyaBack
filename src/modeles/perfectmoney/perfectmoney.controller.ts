@@ -7,6 +7,8 @@ import { SoldeuserService } from '../soldeuser/soldeuser.service';
 import { CoursService } from '../cours/cours.service';
 import { SoldeshoyaService } from '../soldeshoya/soldeshoya.service';
 import { TransactionHistory } from '../transactionhistory/transaction.entity';
+import { Redirect } from '@nestjs/common';
+import { Post } from '@nestjs/common';
 
 @Controller('perfectmoney')
 export class PerfectmoneyController {
@@ -28,6 +30,9 @@ export class PerfectmoneyController {
   }
 
   // DEPOT
+
+  // AMPY VE NY SOLDE MGA ANLE USER
+  // AMPY VE NY SOLDE USDT ANLE SHOYA
 
   @Get('depot')
   async transferFunds(@Body() body: { iduser: number, receveur: string, montant: number, paymentid: string}): Promise<any> {
@@ -59,12 +64,22 @@ export class PerfectmoneyController {
     newtransachistory.montant = body.montant;
     newtransachistory.cours = depot;
     newtransachistory.actif = 'USDT';
-    newtransachistory.numeroordre = (listetransaction.length+1) + "";
+    newtransachistory.numeroordre = 'depot_pm_'+(listetransaction.length+1) + "";
     await this.transactionhistoryService.create(newtransachistory);
     return { messageresult : 'Transaction effectuee' } 
   } catch (error) {
     return { messageresult : error }
   }
   }
+
+  @Post('testRetrait')
+  async testRetrait() {
+    try {
+      const hiddenFields = await this.perfectMoneyService.testRetrait();
+      return hiddenFields;
+    } catch (error) {
+      return { error: error.message };
+    }
+  } 
 
 }

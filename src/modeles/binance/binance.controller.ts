@@ -92,6 +92,9 @@ export class BinanceController {
 
   //////// DEPOT  
 
+  // AMPY VE NY SOLDE MGA ANLE USER
+  // AMPY VE NY SOLDE USDT ANLE SHOYA
+
   @Post('/fairedepot')
   async transactionDepot(
     @Body() body: { iduser: number, montant: number, adress: string }
@@ -124,7 +127,7 @@ export class BinanceController {
     newtransachistory.montant = body.montant;
     newtransachistory.cours = depot;
     newtransachistory.actif = 'USDT';
-    newtransachistory.numeroordre = (listetransaction.length+1) + "";
+    newtransachistory.numeroordre = 'depot_binance_'+(listetransaction.length+1) + "";
     await this.transactionhistoryService.create(newtransachistory);
     return { messageresult : 'Transaction effectuee' } 
   } catch (error) {
