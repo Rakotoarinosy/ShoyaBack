@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.2",
     "mysql2": "^3.9.2",
+    "node-html-parser": "^6.1.13",
     "nodemailer": "^6.9.13",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.2.0",

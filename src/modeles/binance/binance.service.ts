@@ -121,7 +121,6 @@ export class BinanceService {
       const response = await this.binanceGet('https://api.binance.com/sapi/v1/capital/config/getall', {});
       const data = response.data;
       const filteredData = data.filter((item: any) => item.coin === coin);
-      
       return filteredData;
     } catch (error) {
       console.log(error.response.data);

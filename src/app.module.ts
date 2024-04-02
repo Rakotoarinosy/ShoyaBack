@@ -15,6 +15,7 @@ import { SoldeshoyaModule } from './modeles/soldeshoya/soldeshoya.module';
 import { AdressecryptoshoyaModule } from './modeles/adressecryptoshoya/adressecryptoshoya.module';
 import { AdressenetworkModule } from './modeles/adressenetwork/adressenetwork.module';
 import { OtpModule } from './modeles/otp/otp.module';
+import { PerfectmoneyModule } from './modeles/perfectmoney/perfectmoney.module';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { OtpModule } from './modeles/otp/otp.module';
     SoldeshoyaModule,
     AdressecryptoshoyaModule,
     AdressenetworkModule,
-    OtpModule],
+    OtpModule,
+    PerfectmoneyModule],
   controllers: [AppController],
   providers: [AppService],
 })
