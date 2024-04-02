@@ -15,7 +15,7 @@ import { SoldeshoyaModule } from './modeles/soldeshoya/soldeshoya.module';
 import { AdressecryptoshoyaModule } from './modeles/adressecryptoshoya/adressecryptoshoya.module';
 import { AdressenetworkModule } from './modeles/adressenetwork/adressenetwork.module';
 import { OtpModule } from './modeles/otp/otp.module';
-import { PerfectmoneyModule } from './modeles/perfectmoney/perfectmoney.module';
+import { PerfectmoneyModule } from './perfectmoney/perfectmoney.module';
 
 @Module({
   imports: [

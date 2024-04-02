@@ -45,9 +45,4 @@ export class TransactionhistoryController {
     }
     return this.transactionhistoryService.delete(id);
   }
-
-  @Get()
-  async getByUser(@Body('iduser') iduser: number): Promise<TransactionHistory[]>{
-    return this.transactionhistoryService.byIdUser(iduser);
-  }
 }
