@@ -34,17 +34,16 @@ export class Perfectmoneyservice {
 
   // DEPOT : ISIKA MANDEFA USDT MAKANY AM CLIENT
 
-  async transferFunds(): Promise<any> {
+  async transferFunds(receveur: string, montant: number, paymentid: string): Promise<any> {
     const url = 'https://perfectmoney.com/acct/confirm.asp';
     const params = {
-      AccountID: '84905486',
-      PassPhrase: 'Steven!Passe13Phrase.',
-      Payer_Account: 'U47300434',
-      Payee_Account: 'U35215711',
-    //   Payee_Account: 'U43296497', compte Fehizoro
-      Amount: 3.9,
+      AccountID: '84905486', // OVAINA COMPTE SHOYA EXCHANGE
+      PassPhrase: 'Steven!Passe13Phrase.', // OVAINA COMPTE SHOYA EXCHANGE
+      Payer_Account: 'U47300434', // OVAINA COMPTE SHOYA EXCHANGE
+      Payee_Account: receveur,
+      Amount: montant,
       PAY_IN: 1,
-      PAYMENT_ID: 12222,
+      PAYMENT_ID: paymentid,
     };
 
     try {

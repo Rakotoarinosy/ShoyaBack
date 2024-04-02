@@ -9,8 +9,6 @@ import { CoursService } from 'src/modeles/cours/cours.service';
 import { SoldeuserService } from 'src/modeles/soldeuser/soldeuser.service';
 import { SoldeshoyaService } from 'src/modeles/soldeshoya/soldeshoya.service';
 import { Body } from '@nestjs/common';
-import { log } from 'console';
-import { networkInterfaces } from 'os';
 
 @Controller('binance')
 export class BinanceController {
@@ -59,13 +57,15 @@ export class BinanceController {
         newtransactionid.iduser = body.iduser;
         await this.transactionIdService.create(newtransactionid);
 
+        const listetransaction = await this.transactionhistoryService.findAll();
+
         const newtransachistory = new TransactionHistory();
         newtransachistory.iduser = body.iduser;
         newtransachistory.type = "retrait";
         newtransachistory.montant = montant;
         newtransachistory.cours = montantretrait;
-        newtransachistory.actif = actif;
-        newtransachistory.numeroordre = this.binanceService.generateRandomString();
+        newtransachistory.actif = 'USDT';
+        newtransachistory.numeroordre = (listetransaction.length+1) + "";
         await this.transactionhistoryService.create(newtransachistory);
 
         const soldeUser = await this.soldeuserService.findByUser(body.iduser);
@@ -95,10 +95,10 @@ export class BinanceController {
   @Post('/fairedepot')
   async transactionDepot(
     @Body() body: { iduser: number, montant: number, adress: string }
-  ): Promise<void> {
+  ): Promise<any> {
+    let messageresult = '';
     try {
-    
-      // await this.binanceService.withdraw(1,'uuu');
+      await this.binanceService.withdraw(body.montant,body.adress);
 
     const soldeUser = await this.soldeuserService.findByUser(body.iduser);
     const depot = (await this.coursService.findByName('usdt')).depot;
@@ -113,6 +113,8 @@ export class BinanceController {
       throw new Error('Solde global introuvable.');
     }
 
+    const listetransaction = await this.transactionhistoryService.findAll();
+
     soldeshoya[0].usdt -= (body.montant);
     soldeshoya[0].mga += (depot * body.montant);
     await this.soldeshoyaService.update(soldeshoya[0].id, soldeshoya[0]);
@@ -122,10 +124,11 @@ export class BinanceController {
     newtransachistory.montant = body.montant;
     newtransachistory.cours = depot;
     newtransachistory.actif = 'USDT';
-    newtransachistory.numeroordre = 'numero ordre';
+    newtransachistory.numeroordre = (listetransaction.length+1) + "";
     await this.transactionhistoryService.create(newtransachistory);
+    return { messageresult : 'Transaction effectuee' } 
   } catch (error) {
-    console.error('Erreur lors du traitement de la transaction de dépôt :', error.message);
+    return { messageresult : error }
   }
 }
 
@@ -144,22 +147,8 @@ export class BinanceController {
     return { message: teste }
   }
 
-  // @Post('/withdraw/:amount/:adress')
-  // async WithDraw(@Param('amount') amount : number, 
-  // @Param('adress') adress : string): Promise<any> {
-  //   return await this.binanceService.withdraw(amount,adress);
-  // }
-
   @Get('/withdraw-history')
   async getWithdrawHistory(): Promise<any> {
     return await this.binanceService.getWithdrawHistory();
   }
-
-  ///////// PERFECT MONEY
-
-  // @Get('transfer')
-  // async transferFunds(): Promise<any> {
-  //   return this.binanceService.transferFunds();
-  // }
-
 }

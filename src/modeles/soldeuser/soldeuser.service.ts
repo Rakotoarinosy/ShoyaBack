@@ -32,9 +32,17 @@ export class SoldeuserService {
     await this.soldeUserRepository.delete(id);
   }
 
-  async findByUser(iduser: number): Promise<SoldeUser[]>{
-    return this.soldeUserRepository.find({ where: {iduser} });
+  async findByUser(iduser: number): Promise<SoldeUser[]> {
+    const listeuser = await this.findAll();
+    const liste: SoldeUser[] = []; 
+    for (let i = 0; i < listeuser.length; i++) {
+      if (listeuser[i].iduser === iduser) {
+        liste.push(listeuser[i]);
+      }
+    }
+    return liste;
   }
+
 }
 
 
