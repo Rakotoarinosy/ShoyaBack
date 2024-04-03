@@ -93,4 +93,39 @@ export class Perfectmoneyservice {
       throw new Error('Error transferring funds: ' + error.message);
     }
   }
+
+  // transaction
+  async createTransactionForm(): Promise<string> {
+    const PAYEE_ACCOUNT = 'U43296497'; // Remplacez par votre numéro de compte Perfect Money
+    const PAYEE_NAME = PAYEE_ACCOUNT; // Remplacez par votre nom d'entreprise
+    const PAYMENT_AMOUNT = '100'; // Montant du paiement
+    const PAYMENT_UNITS = 'USD'; // Unité de paiement (par exemple, USD, EUR, etc.)
+    const PAYMENT_ID = '123456'; // Identifiant de paiement (facultatif)
+    const PAYMENT_URL = 'https://perfectmoney.com/api/step1.asp';
+    const NOPAYMENT_URL = 'https://perfectmoney.com/api/step1.asp';
+
+    const apiUrl = 'https://perfectmoney.com/api/step1.asp';
+
+    const params = new URLSearchParams({
+      PAYEE_ACCOUNT,
+      PAYEE_NAME,
+      PAYMENT_AMOUNT,
+      PAYMENT_UNITS,
+      PAYMENT_ID,
+      PAYMENT_URL,
+      NOPAYMENT_URL,
+    });
+
+    try {
+      const response = await axios.post(apiUrl, params.toString(), {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      });
+
+      return response.data;
+    } catch (error) {
+      throw new Error('Error creating transaction form: ' + error.message);
+    }
+  }
+
+
 }

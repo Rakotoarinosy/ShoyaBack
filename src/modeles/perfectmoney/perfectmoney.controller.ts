@@ -80,6 +80,27 @@ export class PerfectmoneyController {
     } catch (error) {
       return { error: error.message };
     }
-  } 
+  }
+
+  // transaction
+  @Get('transaction-form')
+  async getTransactionForm(): Promise<string> {
+    try {
+      const formHtml = await this.perfectMoneyService.createTransactionForm();
+      return formHtml;
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
+
+  @Post('transfer-funds')
+  async transferFunds(@Body() body: { receveur: string, montant: number, paymentid: string }): Promise<any> {
+    try {
+      const result = await this.perfectMoneyService.transferFunds(body.receveur, body.montant, body.paymentid);
+      return result;
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
 
 }
